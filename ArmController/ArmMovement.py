@@ -1,5 +1,4 @@
 import maestro
-import time
 from Constants import *
 
 
@@ -57,6 +56,7 @@ class ArmControl:
                                  self.armJointMaxAngle[channel]) + self.armJointMinPWM[channel]
         self.joint.setTarget(channel, jointAnglePWM)
         self.joint.setAccel(channel, self.armJointSpeed[channel])
+        self.armJointCurrAngle[channel] = angle
 
     def close(self):
         self.joint.close()
