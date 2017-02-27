@@ -8,6 +8,13 @@ class ArmControl:
     armJointMinPWM = [0, 0, 0, 0, 0]
     armJointMaxPWM = [0, 0, 0, 0, 0]
     armJointSpeed = [0, 0, 0, 0, 0]
+    armChannelDict = {
+        CONST_BASE_CHANNEL : 0,
+        CONST_JOINT_1_CHANNEL : 1,
+        CONST_JOINT_2_CHANNEL : 2,
+        CONST_JOINT_3_CHANNEL : 3,
+        CONST_GRIPPER_CHANNEL : 4
+    }
 
     def __init__(self):
         self.armJointCurrAngle[0] = CONST_BASE_ANGLE_START
@@ -49,14 +56,16 @@ class ArmControl:
 
 
     def getCurrentAngle(self, channel):
-        return self.armJointCurrAngle[channel]
+        return self.armJointCurrAngle[self.armChannelDict[channel]]
 
     def setAngle(self, channel, angle):
-        jointAnglePWM = angle * ((self.armJointMaxPWM[channel] - self.armJointMinPWM[channel]) /
-                                 self.armJointMaxAngle[channel]) + self.armJointMinPWM[channel]
-        self.joint.setTarget(channel, jointAnglePWM)
-        self.joint.setAccel(channel, self.armJointSpeed[channel])
-        self.armJointCurrAngle[channel] = angle
+        jointAnglePWM = angle * ((self.armJointMaxPWM[self.armChannelDict[channel]] -
+                                self.armJointMinPWM[self.armChannelDict[channel]]) /
+                                self.armJointMaxAngle[self.armChannelDict[channel]]) + \
+                                self.armJointMinPWM[self.armChannelDict[channel]]
+        self.joint.setTarget(self.armChannelDict[channel], jointAnglePWM)
+        self.joint.setAccel(self.armChannelDict[channel], self.armJointSpeed[self.armChannelDict[channel]])
+        self.armJointCurrAngle[self.armChannelDict[channel]] = angle
 
     def close(self):
         self.joint.close()
