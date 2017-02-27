@@ -29,11 +29,12 @@ class ArmControl:
         return self.joint.getPosition(channel)
 
     def setAngle(self, channel, angle):
+        angle = angle + self.armChannelDict[channel][5]
         jointAnglePWM = angle * ((self.armChannelDict[channel][2] -
                                 self.armChannelDict[channel][1]) /
                                 self.armChannelDict[channel][3]) + \
                                 self.armChannelDict[channel][1]
-        self.joint.setTarget(channel, jointAnglePWM + self.armChannelDict[channel][5])
+        self.joint.setTarget(channel, jointAnglePWM)
         self.joint.setAccel(channel, self.armChannelDict[channel][4])
 
     def close(self):
