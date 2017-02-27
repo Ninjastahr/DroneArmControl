@@ -33,7 +33,7 @@ class ArmControl:
                                 self.armChannelDict[channel][1]) /
                                 self.armChannelDict[channel][3]) + \
                                 self.armChannelDict[channel][1]
-        self.joint.setTarget(channel, jointAnglePWM)
+        self.joint.setTarget(channel + self.armChannelDict[channel][5], jointAnglePWM)
         self.joint.setAccel(channel, self.armChannelDict[channel][4])
 
     def close(self):
