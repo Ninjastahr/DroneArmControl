@@ -38,7 +38,7 @@ class ArmControl:
                                 self.armChannelDict[channel][1]) /
                                 self.armChannelDict[channel][3]) + \
                                 self.armChannelDict[channel][1]
-        jointAnglePWM -= offsetPWM
+        jointAnglePWM += offsetPWM
 
         self.joint.setTarget(channel, jointAnglePWM)
         self.joint.setAccel(channel, self.armChannelDict[channel][4])
