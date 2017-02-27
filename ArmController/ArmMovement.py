@@ -3,6 +3,7 @@ from Constants import *
 
 
 class ArmControl:
+    # 0 = angle start; 1 = min pwm; 2 = max pwm; 3 = max angle; 4 = speed; 5 = offset
     armChannelDict = {
         CONST_BASE_CHANNEL : [CONST_BASE_ANGLE_START, CONST_BASE_MIN_PWM, CONST_BASE_MAX_PWM,
                               CONST_BASE_MAX_ANGLE, CONST_BASE_SPEED, CONST_BASE_OFFSET],
@@ -29,11 +30,16 @@ class ArmControl:
         return self.joint.getPosition(channel)
 
     def setAngle(self, channel, angle):
-        angle = angle + self.armChannelDict[channel][5]
+        offsetPWM = self.armChannelDict[channel][5] * ((self.armChannelDict[channel][2] -
+                                self.armChannelDict[channel][1]) /
+                                self.armChannelDict[channel][3])
+
         jointAnglePWM = angle * ((self.armChannelDict[channel][2] -
                                 self.armChannelDict[channel][1]) /
                                 self.armChannelDict[channel][3]) + \
                                 self.armChannelDict[channel][1]
+        jointAnglePWM -= offsetPWM
+
         self.joint.setTarget(channel, jointAnglePWM)
         self.joint.setAccel(channel, self.armChannelDict[channel][4])
 
