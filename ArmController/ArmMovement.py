@@ -30,11 +30,12 @@ class ArmControl:
         return self.joint.getPosition(channel)
 
     def setAngle(self, channel, angle):
+        angle1 = 180-angle
         offsetPWM = self.armChannelDict[channel][5] * ((self.armChannelDict[channel][2] -
                                 self.armChannelDict[channel][1]) /
                                 (self.armChannelDict[channel][3] + self.armChannelDict[channel][5]))
 
-        jointAnglePWM = angle * ((self.armChannelDict[channel][2] -
+        jointAnglePWM = angle1 * ((self.armChannelDict[channel][2] -
                                 self.armChannelDict[channel][1]) /
                                  (self.armChannelDict[channel][3] + self.armChannelDict[channel][5])) + \
                                 self.armChannelDict[channel][1]
