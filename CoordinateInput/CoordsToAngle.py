@@ -54,3 +54,6 @@ class ArmAngleCalculator:
         self.arm.setAngle(channels[0], self.angle3)
         self.arm.setAngle(channels[1], self.angle1)
         self.arm.setAngle(channels[2], self.angle2)
+
+    def close(self):
+        self.arm.close()
