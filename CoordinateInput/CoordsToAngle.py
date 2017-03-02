@@ -48,6 +48,7 @@ class ArmAngleCalculator:
         self.y = yIn
         self.z = zIn
         self.calculateAngle()
+        self.moveArm()
 
     def moveArm(self):
         self.arm.setAngle(channels[0], self.angle3)
